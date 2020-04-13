@@ -8,8 +8,8 @@ app.set('view engine', 'ejs');
 
 const generateRandomString = () => {
   let result = '';
-  constcharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const count = 0;
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let count = 0;
   while (count < 6){
     result += characters.charAt(Math.floor(Math.random() * characters.length));
     count++;
@@ -46,12 +46,24 @@ app.get("/urls", (req, res) => {
 
 app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  const newURL = generateRandomString();
+  urlDatabase[newURL] = req.body.longURL;
+  res.redirect(`urls/${newURL}`);
 });
 
 app.get("/urls/new", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_new", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[ req.params.shortURL];
+  if(longURL){
+    res.redirect(longURL);
+  } else {
+    res.redirect('/urls');
+  }
+
 });
 
 app.get("/urls/:shortURL", (req, res) => {
