@@ -17,10 +17,15 @@ const generateRandomString = () => {
   return result;
 };
 
-
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
+};
+
+const updateShortURL = (oldURl, newURL) => {
+  const url = urlDatabase[oldURl];
+  urlDatabase[newURL] = url;
+  delete urlDatabase[oldURl];
 };
 
 app.get('/', (req, res) => {
@@ -56,9 +61,9 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new", templateVars);
 });
 
-app.post('/urls/:shortURL/delete', (req,res) => {
-  delete urlDatabase[req.params.shortURL];
-  res.redirect('/urls')
+app.post('/urls/:shortURL', (req,res) => {
+  updateShortURL(req.params.shortURL, req.body.newURL);
+  res.redirect('/urls');
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -70,6 +75,17 @@ app.get("/u/:shortURL", (req, res) => {
   }
 
 });
+
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[ req.params.shortURL];
+  if(longURL){
+    res.redirect(longURL);
+  } else {
+    res.redirect('/urls');
+  }
+
+});
+
 
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL]};
