@@ -73,7 +73,7 @@ router.post("/login", (req, res) => {
     res.cookie('user_id',user.id);
     res.redirect('/urls');
   } else {
-    res.redirect('/login');
+    res.sendStatus(403);
   }
   
  });
