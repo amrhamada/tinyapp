@@ -11,19 +11,22 @@
       </div>
     </div>
     <div>
-      <% if (!register) { %>
+      
         <% if (!user) { %>
         <div class="form-row align-items-center">
-          <form method="POST" action="/login">
+          <form method="GET" action="/login">
             <div class="collapse navbar-collapse">
-              <input type="text" class="form-control" name="email" placeholder="Enter Email" style = "margin-right: 5px;" required>
-              <input type="password" class="form-control" placeholder="Enter password" style = "margin-right: 5px;" required>
+              <!-- <input type="text" class="form-control" name="email" placeholder="Enter Email" style = "margin-right: 5px;" required>
+              <input type="password" class="form-control" placeholder="Enter password" style = "margin-right: 5px;" required> -->
               <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Login</button>
+             
             </div>
           </form>
-          <form method="GET" action='/register'>
-            <button type="submit"  class="btn btn-outline-dark">Register</button>
-          </form>
+          <% if (!register) { %>
+            <form method="GET" action='/register'>
+              <button type="submit"  class="btn btn-outline-dark">Register</button>
+            </form> 
+          <% };%>
         </div>
         <% } else { %>
           <form method="POST" action="/logout">
@@ -33,7 +36,6 @@
             </div>
           </form>
           <% };%>
-        <% };%>
     </div>
   </nav>
 </header>
