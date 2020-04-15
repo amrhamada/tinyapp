@@ -2,14 +2,6 @@ const express = require('express');
 const router = express.Router();
 const  generateRandomString = require('../express_server');
 
-
-const findUser = email => {
-  for (const key in users){
-    if(users[key].email === email){
-      return true;
-    }
-  }
-};
 const users = { 
   "userRandomID": {
     id: "userRandomID", 
@@ -21,10 +13,28 @@ const users = {
     email: "user2@example.com", 
     password: "dishwasher-funk"
   }
-}
+};
+
+const userExist = email => {
+  for (const key in users){
+    if(users[key].email === email){
+      return true;
+    }
+  }
+};
+
+const findUser = (email, password) => {
+  for (const key in users){
+    if(users[key].email === email && users[key].password === password){
+      return users[key]//, email }
+    }
+  }
+};
+
+
 router.get('/register', (req, res) => {
   const templatevars = {
-    username: '',
+    user: '',
     register: true
   };
   res.render('urls_register', templatevars);
@@ -32,7 +42,7 @@ router.get('/register', (req, res) => {
 
  router.post('/register',  (req, res) => {
   const {email, password} = req.body;
-  const found = findUser(email);
+  const found = userExist(email);
   if (!found){
     const newID = generateRandomString.generateRandomString();
     users[newID] = {
@@ -48,15 +58,24 @@ router.get('/register', (req, res) => {
   
  }); 
 
+router.get('/login', (req, res) => {
+  let templateVars = { 
+    user: '',
+    register: false
+  };
+  res.render('urls_login', templateVars)
+});
+
 router.post("/login", (req, res) => {
   const {email , password} = req.body;
+  const user = findUser(email, password);
+  if (user){
+    res.cookie('user_id',user.id);
+    res.redirect('/urls');
+  } else {
+    res.redirect('/login');
+  }
   
-  // const user_id = users.find(
-  //   (user_id) => user.email=== email && user.password === password
-  // );
-
-  res.cookie('user_id',user_id);
-  res.redirect('/urls');
  });
  
 router.post("/logout", (req, res) => {
