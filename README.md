@@ -9,6 +9,12 @@ TinyApp is a full stack web application built with Node and Express that allows 
 This project was created and published by me as part of my learnings at Lighthouse Labs. 
 A mini project to introduce cookies hashing loging in and out users and permissions.
 
+## Final Product
+
+!["Screenshot of URLs page"](https://github.com/amrhamada/tinyapp/blob/master/docs/urls-page.png?raw=true)
+!["Screenshot of register page"](https://github.com/amrhamada/tinyapp/blob/master/docs/register-page.png?raw=true)
+!["Screenshot of Login page"](https://github.com/amrhamada/tinyapp/blob/master/docs/login-page.png?raw=true)
+
 ## Dependencies
 
 - Node.js
