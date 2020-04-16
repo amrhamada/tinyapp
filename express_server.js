@@ -1,5 +1,5 @@
 const express = require('express');
-const cookie = require('cookie-parser');
+const cookie = require('cookie-session');
 const path = require('path');
 const userAuthRouter = require('./routes/userAuthRouter');
 const db = require('./db/db');
@@ -11,7 +11,10 @@ const https = require('https');
 // const credentials = {key: privateKey, cert: certificate};
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookie());
+app.use(cookie({
+  name: 'user-session',
+  keys: ['a5376b06-97bf-4159-b737-22642a995dd4', '16aefe91-9211-4a1b-a9dc-fc738bf89e6f']
+}));
 app.use('/user', userAuthRouter);
 app.use('/urls', urlRouter);
 
