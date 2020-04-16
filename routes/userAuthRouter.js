@@ -10,9 +10,9 @@ router.get('/register', (req, res) => {
     register: true
   };
   res.render('urls_register', templatevars);
- }); 
+});
 
- router.post('/register',  (req, res) => {
+router.post('/register',  (req, res) => {
   const {email, password} = req.body;
   const user = dbHelpers.createNewUser(email, password);
   if (user) {
@@ -21,32 +21,32 @@ router.get('/register', (req, res) => {
   } else {
     res.sendStatus(400);
   }
-  
- }); 
+
+});
 
 router.get('/login', (req, res) => {
-  let templateVars = { 
+  let templateVars = {
     user: '',
     register: false
   };
-  res.render('urls_login', templateVars)
+  res.render('urls_login', templateVars);
 });
 
 router.post("/login", (req, res) => {
   const {email , password} = req.body;
   const user = dbHelpers.findUser(email, password);
-  if (user){
+  if (user) {
     req.session.user_id =  user.id;
     res.redirect('/urls');
   } else {
     res.sendStatus(403);
   }
-  
- });
- 
+
+});
+
 router.post("/logout", (req, res) => {
-   req.session = null;
-   res.redirect('/urls');
-  });
- 
-  module.exports = router;
+  req.session = null;
+  res.redirect('/urls');
+});
+
+module.exports = router;
