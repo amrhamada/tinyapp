@@ -29,7 +29,7 @@ A mini project to introduce cookies hashing loging in and out users and permissi
 
 `npm install @amrhamada/tinyapp`
 
-**Run its:**
+**Run it:**
 
 npm start
   Runs on localhost port 8080
