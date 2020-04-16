@@ -30,13 +30,13 @@ module.exports = (users, urlDatabase) => {
   };
 
 
-  const userExist = email => {
-    for (const key in users){
-      if(users[key].email === email){
-        return true;
+  const getUserByEmail = (email, db = users) => {
+    for (const key in db){
+      if(db[key].email === email){
+        return db[key].id;
       }
     }
-    return false;
+    return ;
   };
 
   const findUser = (email, password) => {
@@ -49,8 +49,8 @@ module.exports = (users, urlDatabase) => {
   };
 
   const createNewUser = (email, password) => {
-    const found = userExist(email);
-    if (!found){
+    const found = getUserByEmail(email);
+    if (found === undefined){
       const hashedPassword = bcrypt.hashSync(password, 10);
       const newID = generateRandomString();
       users[newID] = {
@@ -58,7 +58,6 @@ module.exports = (users, urlDatabase) => {
           email,
           password : hashedPassword
       };
-
       return users[newID];
     } 
     
@@ -70,7 +69,7 @@ module.exports = (users, urlDatabase) => {
     generateRandomString,
     updateShortURL,
     urlsForUser,
-    userExist,
+    getUserByEmail,
     findUser,
     createNewUser
   };
