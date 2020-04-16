@@ -14,15 +14,9 @@ router.get('/register', (req, res) => {
 
  router.post('/register',  (req, res) => {
   const {email, password} = req.body;
-  const found = dbHelpers.userExist(email);
-  if (!found){
-    const newID = dbHelpers.generateRandomString();
-    db.users[newID] = {
-        id: newID,
-        email,
-        password
-    };
-    res.cookie('user_id', newID)
+  const user = dbHelpers.createNewUser(email, password);
+  if (user) {
+    res.cookie('user_id', user.id)
     res.redirect('/urls');
   } else {
     res.sendStatus(400);
