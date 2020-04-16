@@ -14,7 +14,7 @@
       
         <% if (!user) { %>
         <div class="form-row align-items-center">
-          <form method="GET" action="/login">
+          <form method="GET" action="/user/login">
             <div class="collapse navbar-collapse">
               <!-- <input type="text" class="form-control" name="email" placeholder="Enter Email" style = "margin-right: 5px;" required>
               <input type="password" class="form-control" placeholder="Enter password" style = "margin-right: 5px;" required> -->
@@ -23,13 +23,13 @@
             </div>
           </form>
           <% if (!register) { %>
-            <form method="GET" action='/register'>
+            <form method="GET" action='/user/register'>
               <button type="submit"  class="btn btn-outline-dark">Register</button>
             </form> 
           <% };%>
         </div>
         <% } else { %>
-          <form method="POST" action="/logout">
+          <form method="POST" action="/user/logout">
             <div class="collapse navbar-collapse">
               <span style = "margin-right: 10px;" >Logged In As: <%= user.email %> </span>
               <button type="submit" class="btn btn-outline-dark" >Log out</button>
