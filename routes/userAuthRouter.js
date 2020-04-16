@@ -16,7 +16,7 @@ router.get('/register', (req, res) => {
   const {email, password} = req.body;
   const user = dbHelpers.createNewUser(email, password);
   if (user) {
-    res.cookie('user_id', user.id)
+    req.session.user_id =  user.id;
     res.redirect('/urls');
   } else {
     res.sendStatus(400);
@@ -36,7 +36,7 @@ router.post("/login", (req, res) => {
   const {email , password} = req.body;
   const user = dbHelpers.findUser(email, password);
   if (user){
-    res.cookie('user_id',user.id);
+    req.session.user_id =  user.id;
     res.redirect('/urls');
   } else {
     res.sendStatus(403);
@@ -45,7 +45,7 @@ router.post("/login", (req, res) => {
  });
  
 router.post("/logout", (req, res) => {
-   res.clearCookie('user_id');
+   req.session = null;
    res.redirect('/urls');
   });
  

@@ -4,7 +4,7 @@ const db = require('../db/db');
 const dbHelpers = require('../helpers/dbHelpers')(db.users, db.urlDatabase);
 
   router.get("/", (req, res) => {
-    const user = db.users[req.cookies.user_id];
+    const user = db.users[req.session.user_id];
     const urls = user ? dbHelpers.urlsForUser(user) : {};
     let templateVars = { 
       urls,
@@ -16,7 +16,7 @@ const dbHelpers = require('../helpers/dbHelpers')(db.users, db.urlDatabase);
 
 
   router.get("/new", (req, res) => {
-    const user_id = db.users[req.cookies.user_id];
+    const user_id = db.users[req.session.user_id];
     if(user_id) {
       let templateVars = { 
         user: user_id,
@@ -29,7 +29,7 @@ const dbHelpers = require('../helpers/dbHelpers')(db.users, db.urlDatabase);
   });
 
   router.post("/", (req, res) => {
-    const user_id = req.cookies.user_id
+    const user_id = req.session.user_id
     const newURL = dbHelpers.generateRandomString();
     db.urlDatabase[newURL] = { longURL: req.body.longURL, userID: user_id}
     res.redirect(`urls/${newURL}`);
@@ -51,7 +51,7 @@ const dbHelpers = require('../helpers/dbHelpers')(db.users, db.urlDatabase);
   });
 
   router.post('/:shortURL/delete', (req,res) => {
-    const user = db.users[req.cookies.user_id];
+    const user = db.users[req.session.user_id];
     if (!user) {
       res.sendStatus(403); 
       res.redirect('/login');
@@ -64,7 +64,7 @@ const dbHelpers = require('../helpers/dbHelpers')(db.users, db.urlDatabase);
   });
 
   router.get("/:shortURL", (req, res) => {
-    const user = db.users[req.cookies.user_id] ? db.users[req.cookies.user_id] : '';
+    const user = db.users[req.session.user_id] ? db.users[req.session.user_id] : '';
     let templateVars = { 
       shortURL: req.params.shortURL, 
       longURL: db.urlDatabase[req.params.shortURL].longURL,
