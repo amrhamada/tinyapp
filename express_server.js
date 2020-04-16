@@ -6,7 +6,6 @@ const urlRouter = require('./routes/urlRouter');
 const app = express();
 const PORT = 8080;
 const bodyParser = require("body-parser");
-// const credentials = {key: privateKey, cert: certificate};
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookie({
@@ -19,7 +18,7 @@ app.use('/urls', urlRouter);
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.send('Home Page');
+  res.redirect('/urls');
 });
 
 app.listen(PORT, () => {
