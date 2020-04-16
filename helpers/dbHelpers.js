@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 
 module.exports = (users, urlDatabase) => {
 
@@ -35,14 +36,34 @@ module.exports = (users, urlDatabase) => {
         return true;
       }
     }
+    return false;
   };
 
   const findUser = (email, password) => {
     for (const key in users){
-      if(users[key].email === email && users[key].password === password){
-        return users[key]//, email }
+      if(users[key].email === email && bcrypt.compareSync(password, users[key].password)){
+        return users[key];
       }
     }
+    return false;
+  };
+
+  const createNewUser = (email, password) => {
+    const found = userExist(email);
+    if (!found){
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      const newID = generateRandomString();
+      users[newID] = {
+          id: newID,
+          email,
+          password : hashedPassword
+      };
+
+      return users[newID];
+    } 
+    
+    return false;
+      
   };
 
   return {
@@ -50,7 +71,8 @@ module.exports = (users, urlDatabase) => {
     updateShortURL,
     urlsForUser,
     userExist,
-    findUser
+    findUser,
+    createNewUser
   };
 
 };
