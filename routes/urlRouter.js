@@ -35,22 +35,12 @@ router.post("/", (req, res) => {
   res.redirect(`urls/${newURL}`);
 });
 
-router.post('/:shortURL', (req,res) => {
+router.put('/:shortURL', (req,res) => {
   dbHelpers.updateShortURL(req.params.shortURL, req.body.newURL);
   res.redirect('/urls');
 });
 
-router.get("/u/:shortURL", (req, res) => {
-  const longURL = db.urlDatabase[req.params.shortURL].longURL;
-  if (longURL) {
-    res.redirect(longURL);
-  } else {
-    res.redirect('/urls');
-  }
-
-});
-
-router.post('/:shortURL/delete', (req,res) => {
+router.delete('/:shortURL', (req,res) => {
   const user = db.users[req.session.user_id];
   if (!user) {
     res.sendStatus(403);

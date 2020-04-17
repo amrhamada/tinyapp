@@ -12,12 +12,12 @@
       <div class="card-header"></div>
       <div class="card-body">
         <h5 class="card-title">TinyURL for: <%= longURL %></h5>
-        <p class="card-text">Short URL: <a href="/urls/u/<%= shortURL %>"><%= shortURL %></a></p>
+        <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
       </div>
       <% if (owner === user.id) { %>
         <div class="card-footer text-muted">
           <h2 class="card-title">Edit</h2>
-          <form  method="POST" action="/urls/<%= shortURL %>" >New URL: 
+          <form  method="POST" action="/urls/<%= shortURL %>?_method=PUT" >New URL: 
             <input type="text" name = "newURL"  required>
             <button type="submit" class="btn btn-primary">Submit</button>
             <!-- <button type="submit"  value='Update' style="background-color: rgb(1,123,255); border-radius: 6px; align-self: center; padding: 5px 15px; color:white; font-weight:600;">Submit</button> -->
